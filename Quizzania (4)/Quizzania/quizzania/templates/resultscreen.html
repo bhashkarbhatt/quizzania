@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous"
+    />
+
+    <title>Result</title>
+    <style>
+      body {
+        background: purple;
+        background-image: url(../static/images/bg.jpg);
+      }
+      .fifty {
+        position: absolute;
+        bottom: 205px;
+        left: 160px;
+      }
+      .expert {
+        position: absolute;
+        bottom: 121px;
+        left: 160px;
+      }
+      .flip {
+        position: absolute;
+        bottom: 28px;
+        left: 160px;
+      }
+      .head {
+        height: 120px;
+        width: 500px;
+        background: #4a148c;
+        border-radius: 50px;
+        text-align: center !important;
+        color: #fff;
+        font-size: 40px !important;
+
+        padding: 8px 0 0 0;
+        margin: 30px auto;
+      }
+      .name {
+        font-size: 30px;
+      }
+      .name1 {
+        width: 50%;
+        background-color: blue;
+      }
+      .text {
+        margin-left: 60px;
+        padding: 10px;
+        background-color: #7fffd4;
+      }
+      .dtl {
+        /*margin-left: 10px;*/
+        /*background-color: blue;*/
+        /*float: left !important;*/
+        padding: 10%;
+      }
+      .lifeline {
+        padding: 12%;
+        margin-left: 0px;
+        /*float: right !important;*/
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div class="head">
+        <h1
+          style="font-size: larger; padding-top: 20px; font-family: monospace"
+        >
+          QuizZania-Result
+        </h1>
+      </div>
+      <div class="row py-3">
+        <div class="dtl py-3 col-sm-6">
+          <div
+            class="card text"
+            style="
+              width: 40rem;
+              height: 30rem;
+              vertical-align: middle;
+              border-radius: 20px;
+            "
+          >
+            <div
+              style="
+                display: block;
+                margin-left: 133px;
+                margin-right: auto;
+                width: 50%;
+              "
+            >
+              {% if score|int <= 400 %}
+              <img src="..\static\images\bronze.png" width="360" height="300" />
+              <h5 class="card-title py-3 px-3" style="margin-left: 105px">Level:- NOOB</h5>
+              {% elif score|int < 1000 %}
+              <img src="..\static\images\silver.png" width="340" height="280" />
+              <h5 class="card-title py-3 px-3" style="margin-left: 96px">Level:- GOOD</h5>
+              {% else %}
+              <img src="..\static\images\gold.png" width="370" height="300" />
+              <h5 class="card-title py-3 px-3" style="margin-left: 110px">Level:- PRO</h5>
+              {% endif %}
+            </div>
+            <h5 class="card-title px-3 py-3" align="center">Name:- {{name}}<span style="margin-left: 100px;">Score:- {{score}}</span></h5>
+          </div>
+        </div>
+        <div class="lifeline py-3 col-sm-6">
+          <div
+            class="card text"
+            style="width: 20rem; height: 20rem; border-radius: 15px"
+          >
+            <h5 class="card-title py-3" align="center">Lifeline Data</h5>
+            <input
+              class="iconim"
+              type="image"
+              id="fiffif"
+              alt="50:50"
+              width="90"
+              height="40"
+              src="..\static\images\fiffif.png"
+            />
+            <h4 class="fifty">
+              {% if ffQuesUsed == "ffun" %}
+               Not-Used
+              {% else %}
+              Question-{{ffQuesUsed}}
+              {% endif %}
+            </h4>
+            <br />
+            <br />
+            <input
+              class="iconim"
+              type="image"
+              id="expert"
+              alt="expert"
+              width="90"
+              height="40"
+              src="..\static\images\expert.jpg"
+            />
+            <h4 class="expert">
+              {% if exQuesUsed == "exun" %}
+               Not-Used
+              {% else %}
+              Question-{{exQuesUsed}}
+              {% endif %}
+            </h4>
+            <br />
+            <br />
+            <input
+              class="iconim"
+              type="image"
+              id="flip"
+              alt="flipques"
+              width="90"
+              height="40"
+              src="..\static\images\flip.png"
+            />
+            <h4 class="flip">
+              {% if flQuesUsed == "flun" %}
+               Not-Used
+              {% else %}
+              Question-{{flQuesUsed}}
+              {% endif %}
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>

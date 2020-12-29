@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="..\static\gamescreen.css?version=488223"
+      rel="stylesheet"
+    />
+    <script type = "text/javascript" >
+    function preventBack() { window.history.forward(); }
+    setTimeout("preventBack()", 0);
+      </script>
+    <!---link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-CuOF+2SnTUfTwSZjCXf01h7uYhfOBuxIhGKPbfEJ3+FqH/s6cIFN9bGr1HmAg4fQ"
+      crossorigin="anonymous"
+    /--->
+
+  </head>
+  <body onload="quiz_timer()">
+  <audio id="bgaudio" autoplay="autoplay" loop="loop">
+    <source src="..\static\sounds\gamemusic.mp3"/>
+  </audio>
+    <div id="quiz-holder">
+      <div class="head">
+        <h1>QuizZania</h1>
+        <h4 class="namo" id="uname" style="color: white; font-family:georgia,garamond,serif;font-size:30px;font-style:italic;">User : {{name}}</h4>
+      </div>
+         <svg width="200" height="200">
+      <circle id="circle" class="circle" cx="100" cy="100" r="50"  />
+    </svg>
+    <span id="timer" class="timer">30</span>
+      <div class="icon">
+        <span id="icon-1">
+            <input class="iconim" type="image" id="fiffif" alt="50:50" width="80" height="80"
+                   src="..\static\images\fiffif.png" onclick="fifty()">
+        </span>
+        <span id="icon-2">
+            <input class="iconim" type="image" id="expert" alt="expert" width="80" height="80"
+                   src="..\static\images\expert.jpg" onclick="expert()">
+        </span>
+        <span id="icon-3">
+            <input class="iconim" type="image" id="flip" alt="flipques" width="80" height="80"
+                   src="..\static\images\flip.png" onclick="flip()">
+        </span>
+      </div>
+
+      <div class="container">
+        <div class="n"><p id="n"></p></div>
+        <div class="question">
+          <p class="q" id="q">Q{{numQues}}. {{quiz.ques}}</p>
+        </div>
+        <script>
+            document.getElementById("bgaudio").volume=0.5;
+            var myUrl="{{url_for('gmscreen',name=name,score=score,numQues=numQues,ex_uon=ex_uon, ff_uon=ff_uon, fl_uon=fl_uon)}}";
+            var resultUrl="{{url_for('result', name=name, score=score, exqu=ex_uon, ffqu=ff_uon, flqu=fl_uon)}}";
+            function checkIt(x)
+            {
+              disable();
+              clearTimeout(breakTime);
+              var corr=document.getElementById("corr").getAttribute("value");
+              corr=corr.trim();
+              corr=corr[corr.length-1];
+              var chk= document.getElementById(x).value;
+              chk=chk.trim();
+              chk=chk[0];
+              if(chk==corr)
+                  {
+                    setTimeout(ChangeColor, 300, x);
+                    setTimeout(ChangeColor2, 2500, x);
+                  }
+              else
+                  {
+                    setTimeout(ChangeColor, 500, x)
+                    setTimeout(ChangeColor3, 2500, x)
+                  }
+            }
+
+
+            function ChangeColor(x)
+             {
+                document.getElementById(x).style.backgroundColor = 'Orange';
+             }
+
+            function ChangeColor2(x)
+             {
+                document.getElementById(x).style.backgroundColor = '#00FF00'
+                var corrSound= document.getElementById("corrSound");
+                corrSound.play();
+                setTimeout(Redirect, 2000);
+             }
+
+             function ChangeColor3(x)
+             {
+                document.getElementById(x).style.backgroundColor = 'Red'
+                var wrongSound= document.getElementById("wrongSound");
+                wrongSound.play();
+                setTimeout(function(){
+                var corr=document.getElementById("corr").getAttribute("value");
+                 corr=corr.trim();
+                 corr=corr[corr.length-1];
+                 var opts=['A','B','C','D'];
+                 var x= opts.indexOf(corr)+1;
+                 document.getElementById(x).style.backgroundColor = '#00FF00';}, 1000);
+                setTimeout(function(){window.location.replace(resultUrl)}, 3000);
+             }
+
+            function Redirect()
+             {  if({{numQues}}=="15")
+                  {
+                      window.location.replace(resultUrl);
+                  }
+                else{
+
+                    window.location.replace(myUrl);
+                }
+             }
+
+
+             function fifty()
+             {  if("{{ff_uon}}" == "ffun")
+                {
+                  var ffQuesUsed = {{numQues}};
+                  var corr=document.getElementById("corr").getAttribute("value");
+                  corr=corr.trim();
+                  corr=corr[corr.length-1];
+                  var rem_num=0;
+                   for(var i=1;i<=3;i++)
+                      {
+                         var val = document.getElementById(i.toString()).value;
+                         val=val.trim();
+                         val=val[0];
+                         if(corr != val)
+                             {
+                                if(rem_num <2)
+                                {
+                                    document.getElementById(i.toString()).innerHTML= "";
+                                    rem_num++;
+                                }
+                             }
+                      }
+                   myUrl=myUrl.replace("{{ff_uon}}",ffQuesUsed);
+                }
+               document.getElementById("fiffif").disabled = true;
+             }
+
+             function disable()
+             {
+                for(var i=1;i<=4;i++)
+                {
+                  document.getElementById(i.toString()).disabled = true;
+                }
+             }
+
+
+             function expert()
+             {  if("{{ex_uon}}" == "exun")
+                 {
+                    var exQuesUsed = {{numQues}};
+                    var corr=document.getElementById("corr").value;
+                    corr = corr.trim()
+                    corr = corr[corr.length-1]
+                    switch(corr)
+                    {
+                      case "A":
+                          document.getElementById("1").style.backgroundColor = '#FF00F7';
+                          break;
+                      case "B":
+                          document.getElementById("2").style.backgroundColor = '#FF00F7';
+                          break;
+                      case "C":
+                          document.getElementById("3").style.backgroundColor = '#FF00F7';
+                          break;
+                      case "D":
+                          document.getElementById("4").style.backgroundColor = '#FF00F7';
+                          break;
+                      default:
+                          document.write("Something is wrong!!");
+                      }
+                    myUrl=myUrl.replace("{{ex_uon}}",exQuesUsed);
+                 }
+                document.getElementById("expert").disabled = true;
+             }
+
+
+             function flip()
+             {
+                if("{{fl_uon}}" == "flun")
+                {
+                  var flQuesUsed = {{numQues}};
+                  myUrl=myUrl.replace("{{fl_uon}}",flQuesUsed);
+                  window.location.replace(myUrl);
+                }
+               document.getElementById("flip").disabled = true;
+             }
+
+
+             function quiz_timer()
+					{
+					    var count = 30;
+						for(var i=0;i<=30;i++)
+						{
+							print(count);
+							count--;
+						}
+
+					}
+					var i=-1;
+				function print(count)
+					{	i++
+						setTimeout(function(){
+						    if(count<=11)
+						      {
+						          setTimeout(function(){ var timesup = document.getElementById("timesup");
+                                  timesup.play();},1000);
+						      }
+						 document.getElementById("timer").innerHTML = count;}, i*1000);
+						 setTimeout(function()
+						    {
+						        document.getElementById("circle").style.stroke = "Red";
+						    },20000)
+
+				    }
+                var breakTime = setTimeout(function(){
+                            window.location.replace(resultUrl);
+                            },30000);
+
+
+          </script>
+
+        <div class="options" >
+          <button class="button op" onclick="checkIt('1')" value="{{quiz.opt1}}" id="1">{{quiz.opt1}}</button>
+          <button class="button op" onclick="checkIt('2')" value="{{quiz.opt2}}" id="2">{{quiz.opt2}}</button>
+          <button class="button op" onclick="checkIt('3')" value="{{quiz.opt3}}" id="3">{{quiz.opt3}}</button>
+          <button class="button op" onclick="checkIt('4')" value="{{quiz.opt4}}" id="4">{{quiz.opt4}}</button>
+          <button style="visibility:hidden;" id="corr" value="{{quiz.Correct}}" >{{quiz.Correct}}</button>
+        </div>
+      </div>
+      <div class="sl">
+        <span class="al">
+          Score: <span class="score" value="{{score}}" id="score">{{score}}</span>
+        </span>
+      </div>
+    </div>
+  <audio id="corrSound" src="..\static\sounds\correct.mpeg"></audio>
+  <audio id="wrongSound" src="..\static\sounds\wrong.mpeg"></audio>
+  <audio id="timesup" src="..\static\sounds\timesup.mp3"></audio>
+  </body>
+
+</html>
